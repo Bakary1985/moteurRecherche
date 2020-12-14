@@ -19,7 +19,13 @@
             </p>
             <p class="card-title"> 
             {{product.price}} €
-             <a href="#" class="float-right"><i class="far fa-heart"></i></a>
+             <a href=" {{ path('favoris', { 'id':product.id } )}} " class="float-right">
+             {% if app.user and product.postFavoris(app.user) %}
+             <i class="fas fa-heart"></i>
+             {% else %}
+              <i class="far fa-heart"></i>
+             {% endif %}
+             </a>
             </p>
             <p> {{product.description}} </p>
             
