@@ -6,6 +6,7 @@
 			{% block title %}Welcome!
 			{% endblock %}
 		</title>
+		<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 		{% block stylesheets %}
 			{{ encore_entry_link_tags('app') }}
 		{% endblock %}
@@ -49,9 +50,7 @@
 		</nav>
 		{% block body %}{% endblock %}
 		{% block javascripts %}
-			<script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" data-auto-replace-svg="nest"></script>
 			{{ encore_entry_script_tags('app') }}
-
 		{% endblock %}
 	</body>
 </html>

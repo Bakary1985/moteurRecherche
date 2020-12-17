@@ -5,33 +5,45 @@
 
 {% block body %}
 	<div class="container" style="margin-top: 80px">
+		<div id="myModal" class="myClassHide" role="alert">
+			Veuiller vous connecter pour ajouter aux favoris
+			<span>
+				<strong>
+					Fermer</strong>
+			</span>
+		</div>
+
 		<div class="row">
 			{% for product in products %}
-      <div class="col-4" style="margin-bottom: 20px">
-				<div class="card" >
-					<img class="card-img-top" src="{{product.image}}" alt="Card image cap">
-					<div class="card-body" style="height: 200px">
-						<p class="card-title"> 
-            {{product.name}}
-            {% if product.promo %}
-              <span class="text text-warning float-right"> promo !</span>
-            {% endif %}
-            </p>
-            <p class="card-title"> 
-            {{product.price}} €
-             <a href=" {{ path('favoris', { 'id':product.id } )}} " class="float-right">
-             {% if app.user and product.postFavoris(app.user) %}
-             <i class="fas fa-heart"></i>
-             {% else %}
-              <i class="far fa-heart"></i>
-             {% endif %}
-             </a>
-            </p>
-            <p> {{product.description}} </p>
-            
+				<div class="col-4" style="margin-bottom: 20px">
+					<div class="card">
+						<img class="card-img-top" src="{{product.image}}" alt="Card image cap">
+						<div class="card-body" style="height: 200px">
+							<p class="card-title">
+								{{product.name}}
+								{% if product.promo %}
+									<span class="text text-warning float-right">
+										promo !</span>
+								{% endif %}
+							</p>
+							<p class="card-title">
+								{{product.price}}
+								€
+								<a href=" {{ path('favoris', { 'id':product.id } )}} " class="float-right js-favoris">
+									{% if app.user and product.postFavoris(app.user) %}
+										<i class="fas fa-heart"></i>
+									{% else %}
+										<i class="far fa-heart"></i>
+									{% endif %}
+								</a>
+							</p>
+							<p>
+								{{product.description}}
+							</p>
+
+						</div>
 					</div>
 				</div>
-        </div>
 			{% endfor %}
 		</div>
 	</div>
