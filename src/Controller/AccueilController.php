@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Data\SearchData;
 use App\Entity\Favoris;
 use App\Entity\Produit;
 use App\Entity\User;
+use App\Form\SearchDataType;
 use App\Repository\FavorisRepository;
 use App\Repository\ProduitRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,20 +26,21 @@ class AccueilController extends AbstractController
         ProduitRepository $produitRepo, 
         PaginatorInterface $paginator,
         EntityManagerInterface $em,
-        Request $request
-        
-        ): Response
+        Request $request): Response
     {
-        $query = $produitRepo->findAll();
 
-        $pagination = $paginator->paginate(
-            $query, /* query NOT result */
-            $request->query->getInt('page', 1), /*page number*/
-            9 /*limit per page*/
-        );
+        $data = new SearchData();
+
+        $form = $this->createForm(SearchDataType::class,$data);
+        $form->handleRequest($request);
+
+        $query = $produitRepo->findSearchData($data);
+
+        $pagination = $paginator->paginate($query,$request->query->getInt('page', 1),9);
 
         return $this->render('accueil/index.html.twig', [
             'pagination' => $pagination,
+            'form' => $form->createView()
         ]);
     }
 
