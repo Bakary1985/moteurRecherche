@@ -3,3 +3,23 @@
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 20px;
 }
+
+#myModal {
+    border: 2px solid orangered;
+    background: red;
+    color: white;
+    text-align: center;
+    font-size: 30px;
+    margin-top: 100px;
+    position: fixed;
+    z-index: 1;
+    text-align: center;
+}
+
+.myClassHide {
+    display: none;
+}
+
+.myClassShow {
+    display: block;
+}

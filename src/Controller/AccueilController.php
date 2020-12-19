@@ -2,13 +2,18 @@
 
 namespace App\Controller;
 
+use App\Data\SearchData;
 use App\Entity\Favoris;
 use App\Entity\Produit;
 use App\Entity\User;
+use App\Form\SearchDataType;
 use App\Repository\FavorisRepository;
 use App\Repository\ProduitRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -17,10 +22,25 @@ class AccueilController extends AbstractController
     /**
      * @Route("/", name="accueil")
      */
-    public function index( ProduitRepository $produitRepo): Response
+    public function index(
+        ProduitRepository $produitRepo, 
+        PaginatorInterface $paginator,
+        EntityManagerInterface $em,
+        Request $request): Response
     {
+
+        $data = new SearchData();
+
+        $form = $this->createForm(SearchDataType::class,$data);
+        $form->handleRequest($request);
+
+        $query = $produitRepo->findSearchData($data);
+
+        $pagination = $paginator->paginate($query,$request->query->getInt('page', 1),9);
+
         return $this->render('accueil/index.html.twig', [
-            'products' => $produitRepo->findAll(),
+            'pagination' => $pagination,
+            'form' => $form->createView()
         ]);
     }
 
