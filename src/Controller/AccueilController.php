@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -38,6 +39,15 @@ class AccueilController extends AbstractController
 
         $pagination = $paginator->paginate($query,$request->query->getInt('page', 1),9);
 
+        if($request->get("ajax")){
+            return new JsonResponse([
+                "content" => $this->renderView('accueil/_content.html.twig', [
+                    'pagination' => $pagination
+                ])
+  
+            ]);
+    
+        }
         return $this->render('accueil/index.html.twig', [
             'pagination' => $pagination,
             'form' => $form->createView()

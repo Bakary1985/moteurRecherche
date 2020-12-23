@@ -14,7 +14,9 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const axios = require('axios');
-
+const formInput = document.querySelector("#loginForm");
+const searchParams = new URLSearchParams();
+console.log(formInput)
 function onClickFavoris(event) {
 
     event.preventDefault();
@@ -23,6 +25,7 @@ function onClickFavoris(event) {
 
     axios.get(url)
         .then(function(response) {
+            console.log(response)
             let favoris = response.data.nombre;
 
             if (fav.classList.contains("fas")) {
@@ -37,7 +40,7 @@ function onClickFavoris(event) {
             if (error.response.status === 403) {
                 $('#myModal').removeClass('myClassHide');
                 $('#myModal').addClass('myClassShow');
-                console.log('error 2');
+                
             }
 
         })
@@ -49,4 +52,23 @@ function onClickFavoris(event) {
 
 document.querySelectorAll("a.js-favoris").forEach(function(link) {
     link.addEventListener("click", onClickFavoris)
+});
+
+function onClickCatégories(e){
+    const formData = new FormData(formInput);
+    formData.forEach((key, value)=>{
+        searchParams.append(value, key)
+        console.log(searchParams.toString());
+    });
+
+    //const url = new URL(window.location.href);
+    //console.log(url.pathname + "?" + searchParams.toString() + "&ajax=1")
+    /*axios.get(url.pathname + "?" + searchParams.toString() + "&ajax=1")
+        .then(function (response) {
+            console.log(response.data) 
+        });*/
+    
+}
+document.querySelectorAll("#loginForm input").forEach(function (link) {
+    link.addEventListener("change", onClickCatégories)
 });
